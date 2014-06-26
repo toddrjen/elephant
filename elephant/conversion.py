@@ -152,3 +152,9 @@ def binarize(spiketrain, sampling_rate=None, t_start=None, t_stop=None,
     else:
         return res, pq.Quantity(np.arange(t_start, t_stop+sampling_period,
                                           sampling_period), units=units)
+
+
+# this contains a dictionary with keys being functions and values being
+# a list of arguments that can use neo attributes
+# the neo attribute name and the function argument name should be identical
+neo_arguments = {binarize: ['t_start', 't_stop', 'sampling_rate']}

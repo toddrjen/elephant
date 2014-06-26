@@ -24,3 +24,9 @@ def cv(*args, **kwargs):
     `scipy.stats.variation`
     """
     return scipy.stats.variation(*args, **kwargs)
+
+
+# this contains a dictionary with keys being functions and values being
+# a list of arguments that can use neo attributes
+# the neo attribute name and the function argument name should be identical
+neo_arguments = {}

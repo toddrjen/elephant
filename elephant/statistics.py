@@ -138,3 +138,10 @@ def firing_rate(spiketrain, t_start=None, t_stop=None, axis=None):
         t_stop_test = np.expand_dims(t_stop, axis)
         return np.sum((spiketrain >= t_start) & (spiketrain <= t_stop_test),
                       axis=axis) / (t_stop-t_start)
+
+
+# this contains a dictionary with keys being functions and values being
+# a list of arguments that can use neo attributes
+# the neo attribute name and the function argument name should be identical
+neo_arguments = {isi: [],
+                 firing_rate: ['t_start', 't_stop']}
