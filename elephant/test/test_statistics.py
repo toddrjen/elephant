@@ -72,23 +72,6 @@ class isi_TestCase(unittest.TestCase):
         assert_array_almost_equal(res, target, decimal=9)
 
 
-class isi_cv_TestCase(unittest.TestCase):
-    def setUp(self):
-        self.test_array_regular = np.arange(1, 6)
-
-    def test_cv_isi_regular_spiketrain_is_zero(self):
-        st = neo.SpikeTrain(self.test_array_regular,  units='ms', t_stop=10.0)
-        targ = 0.0
-        res = es.cv(es.isi(st))
-        self.assertEqual(res, targ)
-
-    def test_cv_isi_regular_array_is_zero(self):
-        st = self.test_array_regular
-        targ = 0.0
-        res = es.cv(es.isi(st))
-        self.assertEqual(res, targ)
-
-
 class firing_rate_TestCase(unittest.TestCase):
     def setUp(self):
         self.test_array_3d = np.ones([5, 7, 13])

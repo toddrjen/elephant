@@ -138,8 +138,3 @@ def firing_rate(spiketrain, t_start=None, t_stop=None, axis=None):
         t_stop_test = np.expand_dims(t_stop, axis)
         return np.sum((spiketrain >= t_start) & (spiketrain <= t_stop_test),
                       axis=axis) / (t_stop-t_start)
-
-
-# we make `cv` an alias for scipy.stats.variation for the convenience
-# of former NeuroTools users
-cv = scipy.stats.variation
