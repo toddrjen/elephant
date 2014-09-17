@@ -6,9 +6,10 @@ Elephant is a package for the analysis of neurophysiology data, based on Neo.
 :license: Modified BSD, see LICENSE.txt for details.
 """
 
-from . import statistics
 from . import conversion
+from . import general_tools
 from . import neo_tools
+from . import statistics
 
 
 try:
