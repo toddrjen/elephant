@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-docstring goes here.
+Statistical analysis functions for neuroscientific data.
 
 :copyright: Copyright 2014 by the Elephant team, see AUTHORS.txt.
 :license: Modified BSD, see LICENSE.txt for details.

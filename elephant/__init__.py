@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-docstring goes here.
+Elephant is a package for the analysis of neurophysiology data, based on Neo.
 
 :copyright: Copyright 2014 by the Elephant team, see AUTHORS.txt.
 :license: Modified BSD, see LICENSE.txt for details.

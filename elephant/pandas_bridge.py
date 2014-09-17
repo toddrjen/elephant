@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-docstring goes here.
+Tools for working with pandas objects containing neuroscience data.
+
+This includes tools for converting neo objects to pandas objects.
 
 :copyright: Copyright 2014 by the Elephant team, see AUTHORS.txt.
 :license: Modified BSD, see LICENSE.txt for details.

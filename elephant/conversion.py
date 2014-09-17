@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-docstring goes here.
+Tools for converting between different representations of the same data.
 
 :copyright: Copyright 2014 by the Elephant team, see AUTHORS.txt.
 :license: CeCILL, see LICENSE.txt for details.

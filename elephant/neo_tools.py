@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-docstring goes here.
+Tools for working with `neo` objects and `neo` files.
 
 :copyright: Copyright 2014 by the Elephant team, see AUTHORS.txt.
 :license: Modified BSD, see LICENSE.txt for details.
