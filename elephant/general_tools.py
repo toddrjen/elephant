@@ -29,7 +29,7 @@ def filter_strings(targs, filters):
     -------
 
     nothing
-        Changes are made to `targ` in-place.
+        Changes are made to `targs` in-place.
 
     """
     if hasattr(filters, 'lower'):
@@ -54,6 +54,8 @@ def iter_flattened(objs, flat_ndarray=False):
     The flattening is recursive.  This is slower than
     `list(itertools.chain.from_iterable())`, so it is probably better to use
     that when non-recursive flattening is needed.
+
+    Strings and numpy arrays are not flattened.
 
     Parameters
     ----------
