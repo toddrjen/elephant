@@ -10,6 +10,7 @@ from __future__ import division, print_function
 
 from itertools import chain
 
+import neo
 from neo.core.container import unique_objs
 
 from .general_tools import iter_flattened
@@ -246,3 +247,36 @@ def get_all_epochs(container):
 
     """
     return get_all_objs(container, 'Epoch')
+
+
+def read_all_generic(ioobj):
+    """Read all objects from a `neo.io` object in a consistent manner.
+
+    Reads from `read_all_blocks` if available.
+    If not, reads from `read_all_segments` if available.
+    If not, just does `read`, and puts the result in a list.
+
+    Can either be given a filename or an existing io object to read from.
+
+    Parameters
+    ----------
+
+    ioobj : str or `neo.io` object
+            The file or io object to read from.
+
+    Returns
+    -------
+
+    list
+        A list of one or more `neo.core.Block` or `neo.core.Segment` objects.
+
+    """
+    if hasattr(ioobj, 'lower'):
+        ioobj = neo.io.get_io(ioobj)
+
+    if hasattr(ioobj, 'read_all_blocks'):
+        return ioobj.read_all_blocks()
+    elif hasattr(ioobj, 'read_all_segments'):
+        return ioobj.read_all_segments()
+    else:
+        return [ioobj.read()]
