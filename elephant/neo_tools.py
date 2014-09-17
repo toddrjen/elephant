@@ -12,6 +12,8 @@ from itertools import chain
 
 from neo.core.container import unique_objs
 
+from .general_tools import iter_flattened
+
 
 def extract_neo_attrs(obj, parents=True, child_first=True,
                       skip_array=False, skip_none=False):
@@ -77,23 +79,25 @@ def extract_neo_attrs(obj, parents=True, child_first=True,
     return attrs
 
 
-def _get_all_objs(container, classname):
+def get_all_objs(container, classname=None):
     """Get all `neo` objects of a given type from a container.
 
     The objects can be any list, dict, or other iterable or mapping containing
-    neo objects of a particular class, as well as any neo object that can hold
-    the object.
-    Objects are searched recursively, so the objects can be nested (such as a
-    list of blocks).
+    neo objects, as well as any neo object that can hold the object.
+    Can be used to either get all neo objects or only those of a particular
+    type.
+    Objects are searched recursively, so the objects can be nested
+    (such as a list of blocks).
 
     Parameters
     ----------
 
     container : list, tuple, iterable, dict, neo container
                 The container for the neo objects.
-    classname : str
+    classname : str, optional
                 The name of the class, with proper capitalization
                 (so `SpikeTrain`, not `Spiketrain` or `spiketrain`)
+                If not specified, all neo objects are returned.
 
     Returns
     -------
@@ -102,22 +106,31 @@ def _get_all_objs(container, classname):
         A list of unique `neo` objects
 
     """
-    if container.__class__.__name__ == classname:
+    if not hasattr(container, 'file_origin'):
+        vals = list(iter_flattened(container))
+        if len(vals) == 1 and vals[0] is container:
+            raise TypeError('Cannot handle object of type %s' %
+                            type(container))
+        vals = (get_all_objs(obj, classname) for obj in vals)
+        vals = list(chain.from_iterable(vals))
+    elif classname is None:
+        vals = [container]
+        if hasattr(container, 'children_recur'):
+            vals.extend(container.children_recur)
+        else:
+            return vals
+    elif container.__class__.__name__ == classname:
         return [container]
-    classholder = classname.lower() + 's'
-    if hasattr(container, classholder):
-        vals = getattr(container, classholder)
-    elif hasattr(container, 'list_children_by_class'):
-        vals = container.list_children_by_class(classname)
-    elif hasattr(container, 'values') and not hasattr(container, 'ndim'):
-        vals = container.values()
-    elif hasattr(container, '__iter__'):
-        vals = container
     else:
-        raise ValueError('Cannot handle object of type %s' % type(container))
-    res = list(chain.from_iterable(_get_all_objs(obj, classname)
-                                   for obj in vals))
-    return unique_objs(res)
+        classholder = classname.lower() + 's'
+        if hasattr(container, classholder):
+            vals = getattr(container, classholder)
+        elif hasattr(container, 'list_children_by_class'):
+            vals = container.list_children_by_class(classname)
+        else:
+            raise TypeError('Cannot handle object of type %s' %
+                            type(container))
+    return unique_objs(vals)
 
 
 def get_all_spiketrains(container):
@@ -144,7 +157,7 @@ def get_all_spiketrains(container):
         A list of the unique `neo.SpikeTrain` objects in `container`.
 
     """
-    return _get_all_objs(container, 'SpikeTrain')
+    return get_all_objs(container, 'SpikeTrain')
 
 
 def get_all_events(container):
@@ -170,7 +183,7 @@ def get_all_events(container):
         A list of the unique `neo.Event` objects in `container`.
 
     """
-    return _get_all_objs(container, 'Event')
+    return get_all_objs(container, 'Event')
 
 
 def get_all_epochs(container):
@@ -196,4 +209,4 @@ def get_all_epochs(container):
         A list of the unique `neo.Epoch` objects in `container`.
 
     """
-    return _get_all_objs(container, 'Epoch')
+    return get_all_objs(container, 'Epoch')
