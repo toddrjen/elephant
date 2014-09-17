@@ -133,6 +133,42 @@ def get_all_objs(container, classname=None):
     return unique_objs(vals)
 
 
+def set_all_attrs(neoobj, attr, value, create=False):
+    """Set a neo object and all of its children to have a given attribute.
+
+    Can also work on a list, dict, or other iterable of neo objects.
+
+    The attribute changes happen in-place.
+
+    Paramters
+    ---------
+
+    neoobj : a neo object, or a list, dict, or iterable of neo objects
+             The objects whose attributes should be set.
+    attr : str or list of str objects
+           The name of the attribute to set or a list of names to set.
+    value : any
+            The value to set `attr` to.
+    create : bool, optional
+             If False (default) only set objects that already have an attribute
+             named `attr`.
+             If True, create `attr` if it is not already defined.
+
+    Returns
+    -------
+
+    nothing
+        Changes to `obj` happen in-place.
+
+    """
+    for obj in get_all_objs(neoobj):
+        if create or hasattr(obj, attr):
+            setattr(obj, attr, value)
+        for child in getattr(obj, 'children_recur', []):
+            if create or hasattr(obj, attr):
+                setattr(obj, attr, value)
+
+
 def get_all_spiketrains(container):
     """Get all `neo.Spiketrain` objects from a container.
 
