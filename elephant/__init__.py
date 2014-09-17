@@ -7,6 +7,7 @@ Elephant is a package for the analysis of neurophysiology data, based on Neo.
 """
 
 from . import conversion
+from . import file_tools
 from . import general_tools
 from . import neo_tools
 from . import statistics
