@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tools for working with `neo` objects and `neo` files.
+Tools for working with `neo` objects.
 
 :copyright: Copyright 2014 by the Elephant team, see AUTHORS.txt.
 :license: Modified BSD, see LICENSE.txt for details.
@@ -13,7 +13,7 @@ from itertools import chain
 import neo
 from neo.core.container import unique_objs
 
-from .general_tools import iter_flattened
+from elephant.general_tools import iter_flattened
 
 
 def extract_neo_attrs(obj, parents=True, child_first=True,

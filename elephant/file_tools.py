@@ -124,10 +124,11 @@ def yield_files_paths(targdir=None, rescursive=False,
         filter_by_extensions(filenames, extensions)
         filter_strings(filenames, filefilters)
 
-        for name in filenames:
-            yield os.path.join(dirpath, name)
+        curdir = [os.path.relpath(dirpath, targdir)]
+        filter_strings(curdir, dirfilters)
+        if curdir:
+            for name in filenames:
+                yield os.path.join(dirpath, name)
 
         if not rescursive:
             break
-
-        filter_strings(dirnames, dirfilters)

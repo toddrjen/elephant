@@ -183,6 +183,126 @@ class YieldFilesPathsTestCase(unittest.TestCase):
         self.assertEqual(targ, res6)
         self.assertEqual(targ, res7)
 
+    def test__yield_files_paths__ext(self):
+        res0 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions='h5')
+        res1 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions=['h5'])
+        res2 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions='.h5')
+        res3 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions=['.h5'])
+        res4 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions='h5', filefilters=None)
+        res5 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions=['h5'], filefilters=[])
+        res6 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions='.h5', dirfilters=None)
+        res7 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    extensions=['.h5'], dirfilters=[])
+
+        res0 = sorted(list(res0))
+        res1 = sorted(list(res1))
+        res2 = sorted(list(res2))
+        res3 = sorted(list(res3))
+        res4 = sorted(list(res4))
+        res5 = sorted(list(res5))
+        res6 = sorted(list(res6))
+        res7 = sorted(list(res7))
+
+        targ = [('test0', 'test00', 'test000', 'test0000.h5'),
+                ('test0', 'test03', 'test030.h5'),
+                ('test1', 'test10', 'test100', 'test1000.h5'),
+                ('test2', 'test20.h5'),
+                ('test2', 'test21.h5'),
+                ('test2', 'test22.h5'),
+                ('test0a.h5',),
+                ('test0b.h5',),
+                ('test2c.h5',)]
+        targ = sorted(self.full_file_list(targ))
+
+        self.assertEqual(targ, res0)
+        self.assertEqual(targ, res1)
+        self.assertEqual(targ, res2)
+        self.assertEqual(targ, res3)
+        self.assertEqual(targ, res4)
+        self.assertEqual(targ, res5)
+        self.assertEqual(targ, res6)
+        self.assertEqual(targ, res7)
+
+    def test__yield_files_paths__filefilt(self):
+        res0 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    filefilters='1')
+        res1 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    filefilters=['1'])
+        res2 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    filefilters='1', extensions=None)
+        res3 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    filefilters=['1'], extensions=[])
+        res4 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    filefilters='1', dirfilters=None)
+        res5 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    filefilters=['1'], dirfilters=[])
+
+        res0 = sorted(list(res0))
+        res1 = sorted(list(res1))
+        res2 = sorted(list(res2))
+        res3 = sorted(list(res3))
+        res4 = sorted(list(res4))
+        res5 = sorted(list(res5))
+
+        targ = [('test0', 'test00', 'test000', 'test0001.txt'),
+                ('test0', 'test01', 'test010.dat'),
+                ('test1', 'test10', 'test100', 'test1000.h5'),
+                ('test1', 'test10', 'test101', 'test1010.txt'),
+                ('test1', 'test10', 'test102', 'test1020.dat'),
+                ('test2', 'test21.h5'),
+                ('test1a.txt',),
+                ('test1b.dat',),
+                ('test1c.txt',)]
+        targ = sorted(self.full_file_list(targ))
+
+        self.assertEqual(targ, res0)
+        self.assertEqual(targ, res1)
+        self.assertEqual(targ, res2)
+        self.assertEqual(targ, res3)
+        self.assertEqual(targ, res4)
+        self.assertEqual(targ, res5)
+
+    def test__yield_files_paths__dirfilt(self):
+        res0 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    dirfilters='1')
+        res1 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    dirfilters=['1'])
+        res2 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    dirfilters='1', extensions=None)
+        res3 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    dirfilters=['1'], extensions=[])
+        res4 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    dirfilters='1', filefilters=None)
+        res5 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
+                                    dirfilters=['1'], filefilters=[])
+
+        res0 = sorted(list(res0))
+        res1 = sorted(list(res1))
+        res2 = sorted(list(res2))
+        res3 = sorted(list(res3))
+        res4 = sorted(list(res4))
+        res5 = sorted(list(res5))
+
+        targ = [('test0', 'test01', 'test010.dat'),
+                ('test1', 'test10', 'test100', 'test1000.h5'),
+                ('test1', 'test10', 'test101', 'test1010.txt'),
+                ('test1', 'test10', 'test102', 'test1020.dat')]
+        targ = sorted(self.full_file_list(targ))
+
+        self.assertEqual(targ, res0)
+        self.assertEqual(targ, res1)
+        self.assertEqual(targ, res2)
+        self.assertEqual(targ, res3)
+        self.assertEqual(targ, res4)
+        self.assertEqual(targ, res5)
+
     def test__yield_files_paths__recursive_followlinks(self):
         res0 = ft.yield_files_paths(targdir=self.targdir,
                                     rescursive=True, followlinks=True)
