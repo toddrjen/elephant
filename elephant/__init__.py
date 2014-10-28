@@ -10,6 +10,7 @@ from . import conversion
 from . import file_tools
 from . import general_tools
 from . import neo_tools
+from . import neo_file_tools
 from . import statistics
 
 
