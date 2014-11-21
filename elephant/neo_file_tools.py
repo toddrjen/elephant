@@ -14,7 +14,7 @@ import neo
 
 from .file_tools import yield_files_paths
 from .general_tools import iter_flattened
-from .neo_tools import read_all_generic, set_all_attrs
+from .neo_tools import set_all_attrs
 
 
 def yield_neo_files_from_filenames(filenames):

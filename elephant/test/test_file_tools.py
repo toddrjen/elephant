@@ -146,6 +146,31 @@ class YieldFilesPathsTestCase(unittest.TestCase):
         self.assertEqual(targ, res8)
         self.assertEqual(targ, res9)
 
+    def test__yield_files_paths__default_pwd(self):
+        curdir = os.curdir
+        os.chdir(self.targdir)
+        try:
+            res0 = ft.yield_files_paths()
+        except:
+            os.chdir(curdir)
+            raise
+        os.chdir(curdir)
+
+        res0 = sorted(list(res0))
+
+        targ = [('test0a.h5',),
+                ('test1a.txt',),
+                ('test2a.dat',),
+                ('test0b.h5',),
+                ('test1b.dat',),
+                ('test2b.txt',),
+                ('test0c.dat',),
+                ('test1c.txt',),
+                ('test2c.h5',)]
+        targ = sorted(os.path.join('.', *itarg) for itarg in targ)
+
+        self.assertEqual(targ, res0)
+
     def test__yield_files_paths__recursive(self):
         res0 = ft.yield_files_paths(targdir=self.targdir, rescursive=True)
         res1 = ft.yield_files_paths(targdir=self.targdir, rescursive=True,
