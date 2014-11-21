@@ -85,18 +85,24 @@ def iter_flattened(objs, flat_ndarray=False):
     Despite being iterable, strings are returned as-is.
 
     """
+    # Handle dicts.
     if hasattr(objs, 'values') and not hasattr(objs, 'ndim'):
         for obj in iter_flattened(objs.values(), flat_ndarray=flat_ndarray):
             yield obj
 
+    # Handle non-dict, non-ndarray iterables.
     elif (hasattr(objs, '__iter__') and
           not hasattr(objs, 'lower') and not hasattr(objs, 'ndim')):
         for obj in objs:
             for iobj in iter_flattened(obj, flat_ndarray=flat_ndarray):
                 yield iobj
+
+    # Handle ndarrays.
     elif flat_ndarray and getattr(objs, 'ndim', False):
         for obj in objs:
             for iobj in iter_flattened(obj, flat_ndarray=flat_ndarray):
                 yield iobj
+
+    # Handle non-iterables.
     else:
         yield objs

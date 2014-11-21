@@ -128,10 +128,19 @@ class FilterStringsTestCase(unittest.TestCase):
 
 class IterFlattenedTestCase(unittest.TestCase):
     def setUp(self):
-        self.nestedobj = [[0, (1, 2), 3], (4, {'a': [5, (6, {'b': 7})]}),
+        self.nestedobj = [[0, (1, 2), 3],
+                          (4, {'a': [5, (6, {'b': 7})]}),
                           '8', '9', '10', ([[[((11,),)]]],),
-                          np.array(12), np.array([13]), np.array([14, 15, 16]),
+                          np.array(12), np.array([13]),
+                          np.array([14, 15, 16]),
                           np.array([[17, 18], [19, 20]])]
+
+        self.nestediterobj = [iter([0, (1, 2), 3]),
+                              (4, {'a': [5, (6, {'b': 7})]}),
+                              iter(['8']), iter('9'), '10', ([[[((11,),)]]],),
+                              np.array(12), np.array([13]),
+                              np.array([14, 15, 16]),
+                              np.array([[17, 18], [19, 20]])]
 
     def test__iter_flattened__no_flat_ndarray(self):
         targ = [0, 1, 2, 3, 4, 5, 6, 7, '8', '9', '10', 11,
@@ -140,21 +149,34 @@ class IterFlattenedTestCase(unittest.TestCase):
 
         res0 = list(gtl.iter_flattened(self.nestedobj, flat_ndarray=False))
         res1 = list(gtl.iter_flattened(self.nestedobj))
+        res2 = list(gtl.iter_flattened(self.nestediterobj))
 
         self.assertEqual(targ[:12], res0[:12])
         self.assertEqual(targ[:12], res1[:12])
+        self.assertEqual(targ[:12], res2[:12])
 
         np.testing.assert_array_equal(targ[12], res0[12])
         np.testing.assert_array_equal(targ[13], res0[13])
         np.testing.assert_array_equal(targ[14], res0[14])
+
+        np.testing.assert_array_equal(targ[12], res1[12])
+        np.testing.assert_array_equal(targ[13], res1[13])
+        np.testing.assert_array_equal(targ[14], res1[14])
+
+        np.testing.assert_array_equal(targ[12], res2[12])
+        np.testing.assert_array_equal(targ[13], res2[13])
+        np.testing.assert_array_equal(targ[14], res2[14])
 
     def test__iter_flattened__flat_ndarray(self):
         targ = [0, 1, 2, 3, 4, 5, 6, 7, '8', '9', '10', 11,
                 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
         res0 = list(gtl.iter_flattened(self.nestedobj, flat_ndarray=True))
+        res1 = list(gtl.iter_flattened(self.nestediterobj,
+                                       flat_ndarray=True))
 
         self.assertEqual(targ, res0)
+        self.assertEqual(targ, res1)
 
 if __name__ == '__main__':
     unittest.main()
